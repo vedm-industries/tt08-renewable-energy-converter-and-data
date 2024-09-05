@@ -7,10 +7,10 @@ You can also include images in this folder and reference them in the markdown. E
 512 kb in size, and the combined size of all images must be less than 1 MB.
 -->
 
-## Renewabject processes and converts input voltage from a renewable energy source and collects data from the converted output for analysis.
-le Power Converter and Data Collector
+## Renewable Power Converter and Data Collector
 
-This pro
+This project processes and converts input voltage from a renewable energy source and collects data from the converted output for analysis.
+
 ### How It Works
 The power converter module reads the input voltage and applies a conversion process to generate the desired output voltage. The data collector module stores the output voltage for further use.
 
