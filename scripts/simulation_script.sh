@@ -1,5 +1,5 @@
 # Navigate to the simulation directory
-cd sim
+cd sims
 
 # Assuming Icarus Verilog for simulation
 iverilog -o tb_output tb_top_module.v ../src/top_module.v ../src/data_collector.v ../src/power_converter.v
