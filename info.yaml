@@ -19,7 +19,6 @@ project:
     - "data_collector.v"
     - "power_converter.v"
     - "tb_top_module.v"
-    - "config.json"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
