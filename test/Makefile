@@ -6,18 +6,17 @@ SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
 SIMS_DIR = $(PWD)/../sims
+
+# Project sources in the src folder
 PROJECT_SOURCES = tt_um_vedm_industries.v
 PROJECT_SOURCES += data_collector.v
 PROJECT_SOURCES += power_converter.v
-
-# Make sure to use the correct location for tb_top_module.v
-# In this case, it's in the sims folder
-PROJECT_SOURCES += tb_top_module.v
 
 ifneq ($(GATES),yes)
 
 # RTL simulation:
 SIM_BUILD				= sim_build/rtl
+# Add the project sources from the src directory
 VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
 COMPILE_ARGS 		+= -I$(SRC_DIR)
 
@@ -40,6 +39,8 @@ endif
 
 # Include the testbench sources from the sims folder:
 VERILOG_SOURCES += $(SIMS_DIR)/tb_top_module.v
+
+# Top-level module for the testbench
 TOPLEVEL = tb_top_module
 
 # MODULE is the basename of the Python test file
