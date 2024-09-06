@@ -5,22 +5,14 @@ module tb_top_module;
 
   // Testbench specific signals
   reg [7:0] ui_in;
-  reg [7:0] uio_in;
   wire [7:0] uo_out;
-  wire [7:0] uio_out;
-  wire [7:0] uio_oe;
   reg clk;
   reg rst_n;
-  reg ena;
 
   // Instantiate the top module
   tt_um_vedm_industries dut (
     .ui_in(ui_in),
     .uo_out(uo_out),
-    .uio_in(uio_in),
-    .uio_out(uio_out),
-    .uio_oe(uio_oe),
-    .ena(ena),
     .clk(clk),
     .rst_n(rst_n)
   );
@@ -39,31 +31,26 @@ module tb_top_module;
 
   // Stimulus generation
   initial begin
-    ena = 1; // Enable the system
     ui_in = 8'd0;
-    uio_in = 8'd0;
 
     // Test input patterns
     #20 ui_in = 8'd150; // Set a sample input voltage
-    #20 uio_in = 8'd85; // Set a sample bidirectional input
 
     // Wait some time and change inputs
     #100 ui_in = 8'd45;
-    #20 uio_in = 8'd255;
   end
 
   // Monitoring outputs
   initial begin
-    $monitor("Time = %t, ui_in = %h, uo_out = %h, uio_in = %h, uio_out = %h, uio_oe = %b",
-             $time, ui_in, uo_out, uio_in, uio_out, uio_oe);
+    $monitor("Time = %t, ui_in = %h, uo_out = %h",
+             $time, ui_in, uo_out);
   end
 
   // VCD wave generation
-initial begin
+  initial begin
     $dumpfile("tb_top_module.vcd");
-    $dumpvars(0, tb_top_module);  // Change this to capture the hierarchy where converted_voltage is defined
-    $dumpvars(1, dut.converted_voltage);  // Add this to specifically monitor converted_voltage
-end
+    $dumpvars(0, tb_top_module);
+  end
 
   // Terminate simulation after a certain time
   initial begin
