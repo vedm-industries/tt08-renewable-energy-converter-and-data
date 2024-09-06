@@ -13,21 +13,20 @@ module tb ();
   reg rst_n;
   reg ena;
 
-  // Instantiate the top module
+  // Instantiate the top module (ensure port names match exactly with tt_um_vedm_industries)
   tt_um_vedm_industries dut (
-    .ui_in(ui_in),
-    .uo_out(uo_out),
-    .uio_in(uio_in),
-    .uio_out(uio_out),
-    .uio_oe(uio_oe),
-    .ena(ena),
-    .clk(clk),
-    .rst_n(rst_n)
-
+    .ui_in(ui_in),       // Input port for ui_in
+    .uo_out(uo_out),     // Output port for uo_out
+    .uio_in(uio_in),     // Input port for uio_in
+    .uio_out(uio_out),   // Output port for uio_out
+    .uio_oe(uio_oe),     // Output enable signal
+    .ena(ena),           // Enable signal
+    .clk(clk),           // Clock signal
+    .rst_n(rst_n)        // Active low reset signal
     `ifdef GL_TEST
       // Gate-Level Simulation: Connect power pins
-      .VPWR(1'b1),
-      .VGND(1'b0)
+      .VPWR(1'b1),       // Power pin
+      .VGND(1'b0)        // Ground pin
     `endif
   );
 
