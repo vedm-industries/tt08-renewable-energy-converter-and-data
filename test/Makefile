@@ -9,7 +9,10 @@ SIMS_DIR = $(PWD)/../sims
 PROJECT_SOURCES = tt_um_vedm_industries.v
 PROJECT_SOURCES += data_collector.v
 PROJECT_SOURCES += power_converter.v
-PROJECT_SOURCES += tb_top_module.v  # This was updated to point to tb_top_module
+
+# Make sure to use the correct location for tb_top_module.v
+# In this case, it's in the sims folder
+PROJECT_SOURCES += tb_top_module.v
 
 ifneq ($(GATES),yes)
 
