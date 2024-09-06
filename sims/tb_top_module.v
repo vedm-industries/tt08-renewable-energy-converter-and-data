@@ -8,6 +8,7 @@ module tb_top_module;
   wire [7:0] uo_out;
   reg clk;
   reg rst_n;
+  wire [7:0] converted_voltage;
 
   // Instantiate the top module
   tt_um_vedm_industries dut (
@@ -42,9 +43,10 @@ module tb_top_module;
 
   // Monitoring outputs
   initial begin
-    $monitor("Time = %t, ui_in = %h, uo_out = %h",
-             $time, ui_in, uo_out);
+    $monitor("Time = %t, ui_in = %h, converted_voltage = %h, uo_out = %h",
+             $time, ui_in, converted_voltage, uo_out);
   end
+
 
   // VCD wave generation
   initial begin
