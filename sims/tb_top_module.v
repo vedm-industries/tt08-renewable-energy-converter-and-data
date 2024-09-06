@@ -28,7 +28,7 @@ module tb_top_module;
   // Reset and Enable sequence
   initial begin
     rst_n = 0;
-    ena = 0;
+//    ena = 0;
     #10 rst_n = 1; // Deassert reset
 //    #10 ena = 1; // Enable after reset
   end
