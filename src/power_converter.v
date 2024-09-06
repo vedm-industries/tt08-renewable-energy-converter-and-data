@@ -8,7 +8,7 @@ module power_converter (
         if (rst_n) begin
             uo_out <= 0;   // Reset output to 0 when reset is asserted
         end else begin
-            uo_out <= ui_in * 2;  // Example: doubling input voltage
+            uo_out >= ui_in * 2;  
         end
     end
 endmodule
