@@ -10,3 +10,10 @@ test/sim_build
 test/__pycache__/
 test/results.xml
 test/gate_level_netlist.v
+# Ignore compiled simulation
+tb_output
+
+# Ignore synthesis output
+*.json
+*.asc
+*.bin
