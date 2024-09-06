@@ -25,11 +25,17 @@ async def test_project(dut):
     dut._log.info(f"After reset deasserted, uo_out = {dut.uo_out.value}")
 
     # Set the input values you want to test
-    dut.ui_in.value = 25  # Should result in uo_out being 50
-    await ClockCycles(dut.clk, 1)
-    expected_output = 50
-    dut._log.info(f"ui_in = {dut.ui_in.value}, converted_voltage = {dut.dut.converted_voltage.value}, uo_out = {dut.uo_out.value}")
-    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
+# Change expected output to match logic
+dut.ui_in.value = 25  # ui_in = 25 -> uo_out should be 50 (correct)
+await ClockCycles(dut.clk, 1)
+expected_output = 50
+dut._log.info(f"ui_in = {dut.ui_in.value}, converted_voltage = {dut.converted_voltage.value}, uo_out = {dut.uo_out.value}")
+assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
+
+dut.ui_in.value = 45  # ui_in = 45 -> uo_out should be 90
+await ClockCycles(dut.clk, 1)
+expected_output = 90
+assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
 
     # Test with another value
     dut.ui_in.value = 45  # Should result in uo_out being 90
