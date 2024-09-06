@@ -1,11 +1,17 @@
-# Navigate to the source directory
+#!/bin/bash
+
+# Navigate to the source directory where your Verilog files are located
 cd src
 
-# Run Yosys synthesis commands
-yosys -p "synth_ice40 -top top_module -json top_module.json" *.v
+# Run Yosys synthesis, specifying the correct top module and output file types
+# The following command synthesizes the design to a JSON format, which is common for next steps in FPGA workflows
+yosys -p "synth_ice40 -top tt_um_vedm_industries -json tt_um_vedm_industries.json" *.v
 
-# Follow up with place and route, etc., if necessary
-nextpnr-ice40 --json top_module.json --pcf pins.pcf --asc top_module.asc
+# If you use nextpnr for place and route, you can convert JSON to an ASIC or FPGA specific format
+# For example, nextpnr-ice40 uses the JSON file to generate a placement and routing file (.asc)
+nextpnr-ice40 --json tt_um_vedm_industries.json --pcf pins.pcf --asc tt_um_vedm_industries.asc
 
-# Icepack to generate the final binary
-icepack top_module.asc top_module.bin
+# use icepack to generate the binary configuration file for the FPGA
+icepack tt_um_vedm_industries.asc tt_um_vedm_industries.bin
+
+# Note: Ensure you have the necessary .pcf (pin constraint file) for your specific FPGA board
