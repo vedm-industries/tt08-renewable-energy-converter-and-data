@@ -3,59 +3,56 @@
 
 module tb_top_module;
 
-  // Testbench specific signals
-  reg [7:0] ui_in;
-  wire [7:0] uo_out;
-  reg clk;
-  reg rst_n;
-//  reg ena;
+// Testbench signals
+reg [7:0] ui_in;
+wire [7:0] uo_out;
+reg clk;
+reg rst_n;
 
-  // Instantiate the top module
-  tt_um_vedm_industries dut (
+// Instantiate the DUT (Device Under Test)
+tt_um_vedm_industries dut (
     .ui_in(ui_in),
     .uo_out(uo_out),
     .clk(clk),
-    .rst_n(rst_n)
-    .ena(1'b0)
-  );
+    .rst_n(rst_n),
+    .uio_in(8'b0),  // Unused input, set to 0
+    .uio_out(),     // Unused output, left unconnected
+    .uio_oe()       // Unused output, left unconnected
+);
 
-  // Clock generation
-  initial begin
+// Clock generation
+initial begin
     clk = 0;
-    forever #5 clk = ~clk; // Generate a 100MHz clock
-  end
+    forever #5 clk = ~clk;  // 100MHz clock
+end
 
-  // Reset and Enable sequence
-  initial begin
+// Reset sequence
+initial begin
     rst_n = 0;
-//    ena = 0;
-    #10 rst_n = 1; // Deassert reset
-//    #10 ena = 1; // Enable after reset
-  end
+    #10 rst_n = 1;  // Release reset after 10ns
+end
 
-  // Stimulus generation
-  initial begin
+// Stimulus
+initial begin
     ui_in = 8'd0;
-    #20 ui_in = 8'd25; // Test input 25 -> Expect output 50
-    #50 ui_in = 8'd45; // Test input 45 -> Expect output 90
-  end
+    #20 ui_in = 8'd150;  // Example stimulus
+    #100 ui_in = 8'd45;
+end
 
-  // Monitoring outputs
-  initial begin
-    $monitor("Time = %t, ui_in = %h, uo_out = %h",
-             $time, ui_in, uo_out);
-  end
+// Monitor outputs
+initial begin
+    $monitor("Time = %t, ui_in = %h, uo_out = %h", $time, ui_in, uo_out);
+end
 
-  // VCD wave generation
-  initial begin
+// VCD dump
+initial begin
     $dumpfile("tb_top_module.vcd");
     $dumpvars(0, tb_top_module);
-  end
+end
 
-  // Terminate simulation after a certain time
-  initial begin
-    #200000; // Adjust time units as necessary
+// End simulation after a certain time
+initial begin
+    #200000;  // Run simulation for 200,000 time units
     $finish;
-  end
+end
 
-endmodule
