@@ -1,6 +1,6 @@
 module data_collector (
     input wire clk,
-    input wire reset,
+    input wire rst_n,
     input wire [7:0] data_in,  // Collected data (voltage output)
     output wire [7:0] data_out  // Data output for monitoring
 );
