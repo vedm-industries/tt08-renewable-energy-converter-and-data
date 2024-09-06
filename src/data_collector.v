@@ -1,16 +1,16 @@
 module data_collector (
     input wire clk,
-    input wire reset,
-    input wire [7:0] data_in,  // Collected data (voltage output)
-    output reg [7:0] data_out  // Data output for monitoring
+    input wire rst_n,        // Changed from 'reset' to 'rst_n'
+    input wire [7:0] ui_in,  // Changed from 'data_in' to 'ui_in'
+    output reg [7:0] uo_out  // Changed from 'data_out' to 'uo_out'
 );
     reg [7:0] data_reg;
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
+    always @(posedge clk or posedge rst_n) begin
+        if (rst_n) begin
             data_reg <= 8'b0;
         end else begin
-            data_reg <= data_in;
+            data_reg <= ui_in;
         end
     end
-    assign data_out = data_reg;
+    assign uo_out = data_reg;  // Forwarding collected data to output
 endmodule
