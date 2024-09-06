@@ -23,8 +23,8 @@ module tt_um_vedm_industries (
     data_collector dc (
         .clk(clk),
         .rst_n(rst_n),
-        .ui_in(converted_voltage), // Feed the converted voltage to the data collector
-        .uo_out(uo_out)
+        .data_in(converted_voltage),  // Correct connection for data input
+        .data_out(uo_out)              // Correct connection for data output
     );
 
 endmodule
