@@ -33,7 +33,6 @@ module tb_top_module;
 
   // Reset sequence
   initial begin
-    rst_n = 1; // Ensure reset is inactive
     #10 rst_n = 0; // Assert reset
     #10 rst_n = 1; // Deassert reset
   end
