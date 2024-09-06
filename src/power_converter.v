@@ -1,14 +1,14 @@
 module power_converter (
     input wire clk,
-    input wire rst_n,        // Changed from 'reset' to 'rst_n'
-    input wire [7:0] ui_in,  // Changed from 'vin' to 'ui_in'
-    output reg [7:0] uo_out  // Changed from 'vout' to 'uo_out'
+    input wire rst_n,        // Reset signal (active low)
+    input wire [7:0] ui_in,  // Input voltage
+    output reg [7:0] uo_out  // Output voltage
 );
-    always @(posedge clk or posedge rst_n) begin
-        if (rst_n) begin
-            uo_out <= 0;   // Reset output to 0 when reset is asserted
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            uo_out <= 8'd0;   // Reset output to 0 when rst_n is asserted
         end else begin
-            uo_out >= ui_in * 2;  
+            uo_out <= ui_in * 2;  // Example: doubling input voltage
         end
     end
 endmodule
