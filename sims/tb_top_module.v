@@ -16,7 +16,7 @@ module tb_top_module;
     .uo_out(uo_out),
     .clk(clk),
     .rst_n(rst_n)
-//    .ena(ena)
+    .ena(1'b0)
   );
 
   // Clock generation
