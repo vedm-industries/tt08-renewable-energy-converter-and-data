@@ -15,7 +15,7 @@ module tb_top_module;
     .ui_in(ui_in),
     .uo_out(uo_out),
     .clk(clk),
-    .rst_n(rst_n),
+    .rst_n(rst_n)
 //    .ena(ena)
   );
 
