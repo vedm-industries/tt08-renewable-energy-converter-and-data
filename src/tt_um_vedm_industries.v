@@ -1,4 +1,4 @@
-module top_module (
+module tt_um_vedm_industries (
     input wire clk,
     input wire reset,
     input wire [7:0] vin,      // Voltage input
