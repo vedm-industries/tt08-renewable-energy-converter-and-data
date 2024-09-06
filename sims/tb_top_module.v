@@ -25,10 +25,11 @@ module tb_top_module;
   end
 
   // Reset sequence
-  initial begin
-    #10 rst_n = 0; // Assert reset
-    #10 rst_n = 1; // Deassert reset
-  end
+initial begin
+    rst_n = 0;
+    #50 rst_n = 1; // Deassert reset after 50ns
+end
+
 
   // Stimulus generation
   initial begin
