@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
-module tb ();
+module tb_top_module;
 
   // Testbench specific signals
   reg [7:0] ui_in;
@@ -13,21 +13,16 @@ module tb ();
   reg rst_n;
   reg ena;
 
-  // Instantiate the top module (ensure port names match exactly with tt_um_vedm_industries)
+  // Instantiate the top module
   tt_um_vedm_industries dut (
-    .ui_in(ui_in),       // Input port for ui_in
-    .uo_out(uo_out),     // Output port for uo_out
-    .uio_in(uio_in),     // Input port for uio_in
-    .uio_out(uio_out),   // Output port for uio_out
-    .uio_oe(uio_oe),     // Output enable signal
-    .ena(ena),           // Enable signal
-    .clk(clk),           // Clock signal
-    .rst_n(rst_n)        // Active low reset signal
-    `ifdef GL_TEST
-      // Gate-Level Simulation: Connect power pins
-      .VPWR(1'b1),       // Power pin
-      .VGND(1'b0)        // Ground pin
-    `endif
+    .ui_in(ui_in),
+    .uo_out(uo_out),
+    .uio_in(uio_in),
+    .uio_out(uio_out),
+    .uio_oe(uio_oe),
+    .ena(ena),
+    .clk(clk),
+    .rst_n(rst_n)
   );
 
   // Clock generation
@@ -66,8 +61,14 @@ module tb ();
 
   // VCD wave generation
   initial begin
-    $dumpfile("tb.vcd");
-    $dumpvars(0, tb);
+    $dumpfile("tb_top_module.vcd");
+    $dumpvars(0, tb_top_module);
+  end
+
+  // Terminate simulation after a certain time
+  initial begin
+    #200000; // Adjust time units as necessary
+    $finish;
   end
 
 endmodule
