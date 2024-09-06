@@ -59,10 +59,11 @@ module tb_top_module;
   end
 
   // VCD wave generation
-  initial begin
+initial begin
     $dumpfile("tb_top_module.vcd");
-    $dumpvars(0, tb_top_module);
-  end
+    $dumpvars(0, tb_top_module);  // Change this to capture the hierarchy where converted_voltage is defined
+    $dumpvars(1, dut.converted_voltage);  // Add this to specifically monitor converted_voltage
+end
 
   // Terminate simulation after a certain time
   initial begin
