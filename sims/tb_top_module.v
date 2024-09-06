@@ -25,24 +25,19 @@ module tb_top_module;
     forever #5 clk = ~clk; // Generate a 100MHz clock
   end
 
-  // Reset sequence
+  // Reset and Enable sequence
   initial begin
     rst_n = 0;
     ena = 0;
     #10 rst_n = 1; // Deassert reset
+    #10 ena = 1; // Enable after reset
   end
 
   // Stimulus generation
   initial begin
     ui_in = 8'd0;
-
-    // Test input patterns
-    #20 ena = 1;
-    ui_in = 8'd25; // Set a sample input voltage
-    #20 ena = 0;
-
-    #100 ena = 1;
-    ui_in = 8'd45; // Test with another input
+    #20 ui_in = 8'd25; // Test input 25 -> Expect output 50
+    #50 ui_in = 8'd45; // Test input 45 -> Expect output 90
   end
 
   // Monitoring outputs
