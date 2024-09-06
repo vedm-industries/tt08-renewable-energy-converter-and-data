@@ -5,26 +5,29 @@ from cocotb.triggers import ClockCycles
 
 @cocotb.test()
 async def test_project(dut):
-    dut._log.info("Start")
+    """Test the simple multiplier module."""
 
-    # Set the clock period to 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, units="us")
+    # Start clock
+    clock = Clock(dut.clk, 10, units="ns")  # 100 MHz
     cocotb.start_soon(clock.start())
 
     # Reset
-    dut._log.info("Reset")
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(dut.clk, 2)
     dut.rst_n.value = 1
+    await ClockCycles(dut.clk, 2)
 
-    # Apply test values
-    dut.ui_in.value = 25  # Should result in uo_out being 50
+    # Test input 25 -> Expect output 50
+    dut.ui_in.value = 25
     await ClockCycles(dut.clk, 1)
-    expected_output = 50
+    assert dut.uo_out.value == 50, f"Expected uo_out to be 50, but got {dut.uo_out.value}."
 
-    # Log the converted_voltage and uo_out
-    dut._log.info(f"ui_in = {dut.ui_in.value}, converted_voltage = {dut.converted_voltage.value}, uo_out = {dut.uo_out.value}")
-    
-    # Check the result
-    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
+    # Test input 45 -> Expect output 90
+    dut.ui_in.value = 45
+    await ClockCycles(dut.clk, 1)
+    assert dut.uo_out.value == 90, f"Expected uo_out to be 90, but got {dut.uo_out.value}."
 
+    # Test input 100 -> Expect output 200
+    dut.ui_in.value = 100
+    await ClockCycles(dut.clk, 1)
+    assert dut.uo_out.value == 200, f"Expected uo_out to be 200, but got {dut.uo_out.value}."
