@@ -16,14 +16,13 @@ async def test_project(dut):
 
     # Reset
     dut._log.info("Reset")
-    dut.ena.value = 1
-    dut.ui_in.value = 0
-    dut.uio_in.value = 0
-    dut.rst_n.value = 0
+    dut.rst_n.value = 0  # Assert reset
     await ClockCycles(dut.clk, 10)
-    dut.rst_n.value = 1
-
-    dut._log.info("Test project behavior")
+    dut._log.info(f"After reset asserted, uo_out = {dut.uo_out.value}")
+    
+    dut.rst_n.value = 1  # Deassert reset
+    await ClockCycles(dut.clk, 10)
+    dut._log.info(f"After reset deasserted, uo_out = {dut.uo_out.value}")
 
     # Set the input values you want to test
     dut.ui_in.value = 25  # Should result in uo_out being 50
