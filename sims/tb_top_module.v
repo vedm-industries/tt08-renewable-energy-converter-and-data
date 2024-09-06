@@ -8,7 +8,7 @@ module tb_top_module;
   wire [7:0] uo_out;
   reg clk;
   reg rst_n;
-  reg ena;
+//  reg ena;
 
   // Instantiate the top module
   tt_um_vedm_industries dut (
@@ -16,7 +16,7 @@ module tb_top_module;
     .uo_out(uo_out),
     .clk(clk),
     .rst_n(rst_n),
-    .ena(ena)
+//    .ena(ena)
   );
 
   // Clock generation
@@ -30,7 +30,7 @@ module tb_top_module;
     rst_n = 0;
     ena = 0;
     #10 rst_n = 1; // Deassert reset
-    #10 ena = 1; // Enable after reset
+//    #10 ena = 1; // Enable after reset
   end
 
   // Stimulus generation
