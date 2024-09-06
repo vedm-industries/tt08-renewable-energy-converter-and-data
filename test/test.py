@@ -28,7 +28,7 @@ async def test_project(dut):
     dut.ui_in.value = 25  # Should result in uo_out being 50
     await ClockCycles(dut.clk, 1)
     expected_output = 50
-    dut._log.info(f"ui_in = {dut.ui_in.value}, converted_voltage = {dut.converted_voltage.value}, uo_out = {dut.uo_out.value}")
+    dut._log.info(f"ui_in = {dut.ui_in.value}, converted_voltage = {dut.dut.converted_voltage.value}, uo_out = {dut.uo_out.value}")
     assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
 
     # Test with another value
