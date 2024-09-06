@@ -1,0 +1,18 @@
+[project]
+name = "Renewable Energy Converter and Data Collector"
+
+[simulation]
+top_module = "tb_top_module"  # This is your testbench top module
+timescale = "1ns / 1ps"
+
+# Testbench file
+[testbench]
+files = ["testbench/tb_top_module.v"]
+
+# List of source files for the design under test
+[source]
+files = [
+  "src/tt_um_vedm_industries.v",
+  "src/data_collector.v",
+  "src/power_converter.v"
+]
