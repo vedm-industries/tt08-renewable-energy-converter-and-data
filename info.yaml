@@ -1,52 +1,49 @@
 # Tiny Tapeout project information
 project:
-  title:        "Renewable Energy Power Converting and Data Collecting with TT08"      # Project title
-  author:       "Vedant Misra"      # Your name
-  discord:      "vedmis001"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  "A TT08 implementation that can convert the power output in voltage and can record relevant power transmission data useful in infrastructure development"      # One line description of what your project does
-  language:     "Verilog, Python, Makefile " # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
+  title: "Renewable Energy Power Converting and Data Collecting with TT08"      # Project title
+  author: "Vedant Misra"      # Your name
+  discord: "vedmis001"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
+  description: "A TT08 implementation that can convert power output in voltage and record relevant power transmission data useful in infrastructure development"      # One line description of what your project does
+  language: "Verilog" # Use "Verilog" only as the primary language
+  clock_hz: 0       # Clock frequency in Hz (or 0 if not applicable)
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
 
-  # Your top module name must start with "tt_um_". Make it unique by including your github username:
-  top_module:  "tt_um_vedm-industries"
+  # Your top module name must start with "tt_um_". Make it unique by including your GitHub username:
+  top_module: "tt_um_vedm_industries"  # Corrected to match Verilog naming convention
 
   # List your project's source files here.
-  # Source files must be in ./src and you must list each source file separately, one per line.
-  # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    - "project.v"
+    - "tt_um_vedm_industries.v"
     - "data_collector.v"
     - "power_converter.v"
-    - "tt_um_vedm-idustries"
     - "tb_top_module.v"
     - "config.json"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
-  # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+  # Inputs (dedicated inputs like control signals and input voltage)
+  ui[0]: "vin[0]"     # First bit of input voltage
+  ui[1]: "vin[1]"     # Second bit of input voltage
+  ui[2]: "vin[2]"     # Third bit of input voltage
+  ui[3]: "vin[3]"     # Fourth bit of input voltage
+  ui[4]: "vin[4]"     # Fifth bit of input voltage
+  ui[5]: "vin[5]"     # Sixth bit of input voltage
+  ui[6]: "vin[6]"     # Seventh bit of input voltage
+  ui[7]: "vin[7]"     # Eighth bit of input voltage
 
-  # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  # Outputs (dedicated outputs like voltage output and data collection output)
+  uo[0]: "vout[0]"    # First bit of output voltage
+  uo[1]: "vout[1]"    # Second bit of output voltage
+  uo[2]: "vout[2]"    # Third bit of output voltage
+  uo[3]: "vout[3]"    # Fourth bit of output voltage
+  uo[4]: "vout[4]"    # Fifth bit of output voltage
+  uo[5]: "vout[5]"    # Sixth bit of output voltage
+  uo[6]: "vout[6]"    # Seventh bit of output voltage
+  uo[7]: "vout[7]"    # Eighth bit of output voltage
 
-  # Bidirectional pins
+  # Bidirectional pins (not used for now, leave blank)
   uio[0]: ""
   uio[1]: ""
   uio[2]: ""
