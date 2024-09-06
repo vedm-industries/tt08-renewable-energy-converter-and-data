@@ -20,14 +20,17 @@ async def test_project(dut):
     # Test input 25 -> Expect output 50
     dut.ui_in.value = 25
     await ClockCycles(dut.clk, 1)
-    assert dut.uo_out.value == 50, f"Expected uo_out to be 50, but got {dut.uo_out.value}."
+    expected_output = 50
+    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}"
 
     # Test input 45 -> Expect output 90
     dut.ui_in.value = 45
     await ClockCycles(dut.clk, 1)
-    assert dut.uo_out.value == 90, f"Expected uo_out to be 90, but got {dut.uo_out.value}."
+    expected_output = 90
+    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}"
 
-    # Test input 100 -> Expect output 200
+    # Test input 100 -> Expect output 200, which is truncated to fit in 8 bits (200 in 8 bits is fine)
     dut.ui_in.value = 100
     await ClockCycles(dut.clk, 1)
-    assert dut.uo_out.value == 200, f"Expected uo_out to be 200, but got {dut.uo_out.value}."
+    expected_output = 200
+    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}"
