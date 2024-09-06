@@ -9,22 +9,22 @@ module tt_um_vedm_industries (
     input wire rst_n
 );
 
-    wire [7:0] converted_voltage;
+    wire [7:0] converted_voltage;  // Wire to store the output of the power converter
 
     // Instantiate power converter
     power_converter pc (
         .clk(clk),
         .rst_n(rst_n),
         .ui_in(ui_in),
-        .uo_out(converted_voltage)
+        .uo_out(converted_voltage)  // Connect the output to converted_voltage wire
     );
 
     // Instantiate data collector
     data_collector dc (
         .clk(clk),
         .rst_n(rst_n),
-        .data_in(converted_voltage),  // Correct connection for data input
-        .data_out(uo_out)              // Correct connection for data output
+        .data_in(converted_voltage),  // Use converted_voltage as input
+        .data_out(uo_out)              // Output to uo_out
     );
 
 endmodule
