@@ -24,22 +24,23 @@ async def test_project(dut):
 
     dut._log.info("Test project behavior")
 
-    # Set the input values you want to test
-    dut.ui_in.value = 25  # Set ui_in to 25 (input), expecting uo_out to be doubled
-    dut.uio_in.value = 30  # Example value for uio_in
+    # Set the input values
+    dut.ui_in.value = 25  # Set ui_in to 25, expecting uo_out to be 50
+    dut.uio_in.value = 30
 
-    # Wait for one clock cycle to see the output values
+    # Wait for one clock cycle
     await ClockCycles(dut.clk, 1)
 
-    # Debug output to see current state
+    # Debug output for intermediate values
     dut._log.info(f"ui_in = {dut.ui_in.value}, uo_out = {dut.uo_out.value}")
 
-    # Assert that the output matches the expected value
-    assert dut.uo_out.value == 50, f"Expected uo_out to be 50, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
+    # Assert the expected output based on the design
+    expected_output = dut.ui_in.value * 2
+    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
 
-    # You can continue testing by changing inputs and adding more assertions if needed
-    dut.ui_in.value = 45  # Set another input value for further testing
+    # Additional test for a different input
+    dut.ui_in.value = 45  # Expect uo_out to be 90
     await ClockCycles(dut.clk, 1)
-
+    expected_output = dut.ui_in.value * 2
     dut._log.info(f"ui_in = {dut.ui_in.value}, uo_out = {dut.uo_out.value}")
-    assert dut.uo_out.value == 90, f"Expected uo_out to be 90, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
+    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}. Input was {dut.ui_in.value}"
