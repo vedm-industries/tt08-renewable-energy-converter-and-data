@@ -13,34 +13,29 @@ module tb ();
   reg rst_n;
   reg ena;
 
-  // Instantiate the top module (ensure port names match exactly with tt_um_vedm_industries)
+  // Instantiate the top module
   tt_um_vedm_industries dut (
-    .ui_in(ui_in),       // Input port for ui_in
-    .uo_out(uo_out),     // Output port for uo_out
-    .uio_in(uio_in),     // Input port for uio_in
-    .uio_out(uio_out),   // Output port for uio_out
-    .uio_oe(uio_oe),     // Output enable signal
-    .ena(ena),           // Enable signal
-    .clk(clk),           // Clock signal
-    .rst_n(rst_n)        // Active low reset signal
-    `ifdef GL_TEST
-      // Gate-Level Simulation: Connect power pins
-      .VPWR(1'b1),       // Power pin
-      .VGND(1'b0)        // Ground pin
-    `endif
+    .ui_in(ui_in),
+    .uo_out(uo_out),
+    .uio_in(uio_in),
+    .uio_out(uio_out),
+    .uio_oe(uio_oe),
+    .ena(ena),
+    .clk(clk),
+    .rst_n(rst_n)
   );
 
   // Clock generation
   initial begin
     clk = 0;
-    forever #5 clk = ~clk; // Generate a 100MHz clock
+    forever #5 clk = ~clk; // 100MHz clock
   end
 
   // Reset sequence
   initial begin
-    rst_n = 1; // Ensure reset is inactive
-    #10 rst_n = 0; // Assert reset
-    #10 rst_n = 1; // Deassert reset
+    rst_n = 1;
+    #10 rst_n = 0; // Reset active
+    #10 rst_n = 1; // Deactivate reset after 10ns
   end
 
   // Stimulus generation
@@ -49,22 +44,23 @@ module tb ();
     ui_in = 8'd0;
     uio_in = 8'd0;
 
-    // Test input patterns
-    #20 ui_in = 8'd150; // Set a sample input voltage
-    #20 uio_in = 8'd85; // Set a sample bidirectional input
+    // Test patterns
+    #20 ui_in = 8'd25;  // Expected output: 50 (ui_in * 2)
+    #20 uio_in = 8'd30; 
 
-    // Wait some time and change inputs
-    #100 ui_in = 8'd45;
+    #100 ui_in = 8'd45; // Expected output: 90
     #20 uio_in = 8'd255;
+
+    #50 $finish;  // End simulation
   end
 
-  // Monitoring outputs
+  // Monitor outputs for debugging
   initial begin
     $monitor("Time = %t, ui_in = %h, uo_out = %h, uio_in = %h, uio_out = %h, uio_oe = %b",
              $time, ui_in, uo_out, uio_in, uio_out, uio_oe);
   end
 
-  // VCD wave generation
+  // VCD dump for waveform analysis
   initial begin
     $dumpfile("tb.vcd");
     $dumpvars(0, tb);
