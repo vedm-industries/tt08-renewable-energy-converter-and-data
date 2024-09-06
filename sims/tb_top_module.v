@@ -7,7 +7,7 @@ module tb_top_module;
   wire [7:0] data_out;
 
   // Instantiate the top module
-  top_module uut (
+  tt_um_vedm_industries dut (
       .clk(clk),
       .reset(reset),
       .vin(vin),
