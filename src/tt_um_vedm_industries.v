@@ -1,26 +1,20 @@
 module tt_um_vedm_industries (
-    input wire [7:0] ui_in,
-    output wire [7:0] uo_out,
-    input wire clk,
-    input wire rst_n
+    input wire [7:0] ui_in,        // Input signal
+    output reg [7:0] uo_out,       // Output signal
+    input wire clk,                // Clock signal
+    input wire rst_n               // Reset signal (active low)
 );
 
-    wire [7:0] converted_voltage;
+    reg [7:0] converted_voltage;   // Internal signal to hold converted voltage
 
-    // Instantiate power converter
-    power_converter pc (
-        .clk(clk),
-        .rst_n(rst_n),
-        .ui_in(ui_in),
-        .uo_out(converted_voltage)  // Connect the output to converted_voltage wire
-    );
-
-    // Instantiate data collector
-    data_collector dc (
-        .clk(clk),
-        .rst_n(rst_n),
-        .data_in(converted_voltage),  // Use converted_voltage as input
-        .data_out(uo_out)              // Output to uo_out
-    );
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            converted_voltage <= 8'd0;   // Reset condition
+            uo_out <= 8'd0;             // Reset output
+        end else begin
+            converted_voltage <= ui_in * 2;   // Multiply input by 2
+            uo_out <= converted_voltage;      // Drive output from converted_voltage
+        end
+    end
 
 endmodule
