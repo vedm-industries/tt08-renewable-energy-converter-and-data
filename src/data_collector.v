@@ -1,16 +1,16 @@
 module data_collector (
     input wire clk,
-    input wire rst_n,         // Make sure this port exists in your module
+    input wire rst_n,         // Active-low reset
     input wire [7:0] data_in,  // Collected data (voltage output)
     output wire [7:0] data_out // Data output for monitoring
 );
     reg [7:0] data_reg;
 
-    always @(posedge clk or posedge rst_n) begin
-        if (rst_n) begin
-            data_reg <= 8'b0;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            data_reg <= 8'b0;  // Reset to 0 when rst_n is low
         end else begin
-            data_reg <= data_in;
+            data_reg <= data_in;  // Hold data when rst_n is high
         end
     end
 
