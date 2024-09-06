@@ -1,6 +1,7 @@
 module tt_um_vedm_industries (
     input wire [7:0] ui_in,
     output wire [7:0] uo_out,
+    output wire [7:0] converted_voltage, // Expose the internal signal
     input wire [7:0] uio_in,
     output wire [7:0] uio_out,
     output wire [7:0] uio_oe,
@@ -8,9 +9,6 @@ module tt_um_vedm_industries (
     input wire clk,
     input wire rst_n
 );
-
-    wire [7:0] converted_voltage;  // Wire to store the output of the power converter
-
     // Instantiate power converter
     power_converter pc (
         .clk(clk),
