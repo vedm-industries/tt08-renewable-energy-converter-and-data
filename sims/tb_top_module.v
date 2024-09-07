@@ -1,6 +1,3 @@
-`timescale 1ns / 1ps
-`default_nettype none
-
 module tb_top_module;
 
 // Testbench signals
@@ -8,6 +5,7 @@ reg [7:0] ui_in;
 wire [7:0] uo_out;
 reg clk;
 reg rst_n;
+reg ena;  // Add ena signal
 
 // Instantiate the DUT (Device Under Test)
 tt_um_vedm_industries dut (
@@ -15,9 +13,10 @@ tt_um_vedm_industries dut (
     .uo_out(uo_out),
     .clk(clk),
     .rst_n(rst_n),
-    .uio_in(8'b0),  // Unused input, set to 0
-    .uio_out(),     // Unused output, left unconnected
-    .uio_oe()       // Unused output, left unconnected
+    .ena(ena),       // Connect ena signal
+    .uio_in(8'b0),   // Unused input, set to 0
+    .uio_out(),      // Unused output, left unconnected
+    .uio_oe()        // Unused output, left unconnected
 );
 
 // Clock generation
@@ -26,15 +25,17 @@ initial begin
     forever #5 clk = ~clk;  // 100MHz clock
 end
 
-// Reset sequence
+// Reset and ena sequence
 initial begin
     rst_n = 0;
+    ena = 0;
     #10 rst_n = 1;  // Release reset after 10ns
+    ena = 1;        // Set ena to 1 or 0 as required
 end
 
 // Stimulus
 initial begin
-    ui_in = 8'd0;      // Initialize ui_in at 0
+    ui_in = 8'd0;
     #20 ui_in = 8'd150;  // Example stimulus
     #100 ui_in = 8'd45;
 end
@@ -55,5 +56,3 @@ initial begin
     #200000;  // Run simulation for 200,000 time units
     $finish;
 end
-
-endmodule
