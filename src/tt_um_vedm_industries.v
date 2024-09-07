@@ -3,6 +3,7 @@ module tt_um_vedm_industries (
     output wire [7:0] uo_out,
     input wire clk,
     input wire rst_n,
+    input wire ena,  // Add the enable signal (unused)
     
     // Add unused ports
     input wire [7:0] uio_in,
@@ -25,4 +26,6 @@ module tt_um_vedm_industries (
     assign uio_out = 8'b0;
     assign uio_oe = 8'b0;
 
+    // If ena is not used in your design, simply ignore it.
+    // You can add logic here if needed, but otherwise, it can be ignored.
 endmodule
