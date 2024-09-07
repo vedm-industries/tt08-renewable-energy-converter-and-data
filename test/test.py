@@ -5,25 +5,22 @@ from cocotb.triggers import RisingEdge
 async def test_project(dut):
     """Test the simple multiplier module."""
 
-    # Initialize signals
-    dut.rst_n.value = 0  # Start with reset active
-    dut.ena.value = 0    # Set ena to 0 initially
+    # Remove or comment out the ena signal, since it doesn't exist in your design
+    # dut.ena.value = 0  # Set ena to 0 initially (no need for this line)
 
-    await RisingEdge(dut.clk)  # Wait for a rising edge on the clock
-    dut.rst_n.value = 1        # Release reset
-    dut.ena.value = 1          # Set ena to 1
+    dut.ui_in.value = 0  # Set initial input value
+    await RisingEdge(dut.clk)  # Wait for clock edge
 
-    await RisingEdge(dut.clk)  # Wait for another clock cycle
+    dut.ui_in.value = 150  # Apply stimulus to ui_in
+    await RisingEdge(dut.clk)  # Wait for clock edge
 
-    # Apply test stimulus
-    dut.ui_in.value = 150      # Apply input value
-    await RisingEdge(dut.clk)  # Wait for one clock cycle
+    # Monitor uo_out to verify the output values
+    expected_output = 150  # Example expected output, adjust based on your logic
+    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}"
 
-    assert dut.uo_out.value == 150, f"Expected uo_out to be 150, but got {dut.uo_out.value}"
+    # Apply more stimulus to ui_in and verify output
+    dut.ui_in.value = 45
+    await RisingEdge(dut.clk)  # Wait for clock edge
 
-    dut.ui_in.value = 45       # Apply another input value
-    await RisingEdge(dut.clk)  # Wait for one clock cycle
-
-    assert dut.uo_out.value == 45, f"Expected uo_out to be 45, but got {dut.uo_out.value}"
-
-    # You can add more assertions here if needed to check the functionality.
+    expected_output = 45  # Update expected output
+    assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}"
