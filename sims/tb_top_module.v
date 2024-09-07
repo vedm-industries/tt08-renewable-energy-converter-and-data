@@ -34,7 +34,7 @@ end
 
 // Stimulus
 initial begin
-    ui_in = 8'd0;
+    ui_in = 8'd0;      // Initialize ui_in at 0
     #20 ui_in = 8'd150;  // Example stimulus
     #100 ui_in = 8'd45;
 end
@@ -56,3 +56,4 @@ initial begin
     $finish;
 end
 
+endmodule
