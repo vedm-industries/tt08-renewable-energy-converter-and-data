@@ -18,6 +18,8 @@ tt_um_vedm_industries dut (
     .uio_in(8'b0),  // Unused input, set to 0
     .uio_out(),     // Unused output, left unconnected
     .uio_oe()       // Unused output, left unconnected
+    .vdd(1'b1),  // Connect VDD (power) if applicable
+    .gnd(1'b0)
 );
 
 // Clock generation
@@ -28,9 +30,11 @@ end
 
 // Reset sequence
 initial begin
-    rst_n = 0;
+    ui_in = 8'b0;   // Initialize inputs
+    rst_n = 0;      // Apply reset
     #10 rst_n = 1;  // Release reset after 10ns
 end
+
 
 // Stimulus
 initial begin
