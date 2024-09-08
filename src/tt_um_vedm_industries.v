@@ -3,10 +3,7 @@ module tt_um_vedm_industries (
     output wire [7:0] uo_out,
     input wire clk,
     input wire rst_n,
-
-`ifdef GL_TEST
-    input wire ena,  // Only include ena for gate-level test
-`endif
+    input wire ena,  // Always include ena for all tests (RTL, gate-level, and GDS)
 
     // Unused ports
     input wire [7:0] uio_in,
@@ -29,9 +26,6 @@ module tt_um_vedm_industries (
     assign uio_out = 8'b0;
     assign uio_oe = 8'b0;
 
-`ifdef GL_TEST
-    // If ena is used, include logic here (currently unused)
-    assign ena = 1'b1;  // If needed, modify this to control logic based on `ena`
-`endif
-
+    // Use ena in the design if needed, otherwise leave it for future use.
+    // For now, ena can remain unused but declared to pass synthesis.
 endmodule
