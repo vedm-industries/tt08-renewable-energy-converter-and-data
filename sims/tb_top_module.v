@@ -26,6 +26,11 @@ initial begin
     clk = 0;
     forever #5 clk = ~clk;  // 100MHz clock
 end
+    
+initial begin
+    ena = 1;  // Set enable to 1 if you want the module to always be enabled
+end
+
 
 // Reset sequence
 initial begin
