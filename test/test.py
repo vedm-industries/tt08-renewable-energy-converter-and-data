@@ -12,7 +12,7 @@ async def test_project(dut):
     await RisingEdge(dut.clk)  # Wait for clock edge
 
     # Wait for a few clock cycles to give the DUT time to update the output
-    for _ in range(2):
+    for _ in range(10):
         await RisingEdge(dut.clk)
 
     # Now check the output
