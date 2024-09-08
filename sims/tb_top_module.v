@@ -9,16 +9,24 @@ wire [7:0] uo_out;
 reg clk;
 reg rst_n;
 
+`ifdef GL_TEST
+reg ena;  // Add enable signal only for gate-level simulation
+`endif
+
 // Instantiate the DUT (Device Under Test)
 tt_um_vedm_industries dut (
     .ui_in(ui_in),
     .uo_out(uo_out),
     .clk(clk),
     .rst_n(rst_n),
+    
+    `ifdef GL_TEST
+    .ena(ena),  // Only connect ena for gate-level test
+    `endif
+
     .uio_in(8'b0),  // Unused input, set to 0
     .uio_out(),     // Unused output, left unconnected
     .uio_oe()       // Unused output, left unconnected
-
 );
 
 // Clock generation
@@ -26,16 +34,15 @@ initial begin
     clk = 0;
     forever #5 clk = ~clk;  // 100MHz clock
 end
-    
-
-
 
 // Reset sequence
 initial begin
-    rst_n = 0;      // Assert reset
-    #50 rst_n = 1;  // Release reset after 50ns instead of 20ns
+    rst_n = 0;
+    `ifdef GL_TEST
+    ena = 1;  // Enable for gate-level test
+    `endif
+    #50 rst_n = 1;  // Release reset after 50ns
 end
-
 
 // Stimulus
 initial begin
@@ -52,7 +59,7 @@ end
 // VCD dump
 initial begin
     $dumpfile("tb_top_module.vcd");
-    $dumpvars(0, tb_top_module);  // Fix: ensure the correct instance name is used here.
+    $dumpvars(0, tb_top_module);
 end
 
 // End simulation after a certain time
