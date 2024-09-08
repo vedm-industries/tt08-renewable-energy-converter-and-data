@@ -29,8 +29,8 @@ end
 
 // Reset sequence
 initial begin
-    rst_n = 0;      // Apply reset
-    #20 rst_n = 1;  // Release reset after 10ns
+    rst_n = 0;      // Assert reset
+    #50 rst_n = 1;  // Release reset after 50ns instead of 20ns
 end
 
 
