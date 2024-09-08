@@ -30,7 +30,7 @@ end
 // Reset sequence
 initial begin
     rst_n = 0;      // Apply reset
-    #10 rst_n = 1;  // Release reset after 10ns
+    #20 rst_n = 1;  // Release reset after 10ns
 end
 
 
