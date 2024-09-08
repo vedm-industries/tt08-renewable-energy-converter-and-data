@@ -8,10 +8,7 @@ reg [7:0] ui_in;
 wire [7:0] uo_out;
 reg clk;
 reg rst_n;
-
-`ifdef GL_TEST
-reg ena;  // Add enable signal only for gate-level simulation
-`endif
+reg ena;  // Always declare and use ena in the testbench
 
 // Instantiate the DUT (Device Under Test)
 tt_um_vedm_industries dut (
@@ -19,10 +16,7 @@ tt_um_vedm_industries dut (
     .uo_out(uo_out),
     .clk(clk),
     .rst_n(rst_n),
-    
-    `ifdef GL_TEST
-    .ena(ena),  // Only connect ena for gate-level test
-    `endif
+    .ena(ena),  // Always connect ena
 
     .uio_in(8'b0),  // Unused input, set to 0
     .uio_out(),     // Unused output, left unconnected
@@ -35,12 +29,10 @@ initial begin
     forever #5 clk = ~clk;  // 100MHz clock
 end
 
-// Reset sequence
+// Reset and Enable sequence
 initial begin
     rst_n = 0;
-    `ifdef GL_TEST
-    ena = 1;  // Enable for gate-level test
-    `endif
+    ena = 1;  // Enable signal set to 1
     #50 rst_n = 1;  // Release reset after 50ns
 end
 
