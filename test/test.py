@@ -27,3 +27,7 @@ async def test_project(dut):
 
     expected_output = 45  # Update expected output
     assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}"
+    if dut.uo_out.value.is_resolvable:
+        assert dut.uo_out.value == expected_output, f"Expected uo_out to be {expected_output}, but got {dut.uo_out.value}"
+    else:
+        raise ValueError(f"uo_out contains unresolved value 'x' or 'z'. Current value: {dut.uo_out.value}")
