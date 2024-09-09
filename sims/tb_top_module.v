@@ -1,60 +1,61 @@
 `timescale 1ns / 1ps
 `default_nettype none
-
 module tb_top_module;
+    reg clk;
+    reg rst_n;
+    reg ena;              // Include 'ena' signal here
+    reg [7:0] ui_in;
+    wire [7:0] uo_out;
 
-// Testbench signals
-reg [7:0] ui_in;
-wire [7:0] uo_out;
-reg clk;
-reg rst_n;
+    // Instantiate the design under test (DUT)
+    tt_um_vedm_industries dut (
+        .clk(clk),
+        .rst_n(rst_n),
+        .ena(ena),        // Connect 'ena' to the DUT
+        .ui_in(ui_in),
+        .uo_out(uo_out),
+        .uio_in(),
+        .uio_out(),
+        .uio_oe()
+    );
 
-// Instantiate the DUT (Device Under Test)
-tt_um_vedm_industries dut (
-    .ui_in(ui_in),
-    .uo_out(uo_out),
-    .clk(clk),
-    .rst_n(rst_n),
-    .uio_in(8'b0),  // Unused input, set to 0
-    .uio_out(),     // Unused output, left unconnected
-    .uio_oe()       // Unused output, left unconnected
-);
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;  // 10ns period
+    end
 
-// Clock generation
-initial begin
-    clk = 0;
-    forever #5 clk = ~clk;  // 100MHz clock
-end
+    // Test sequence
+    initial begin
+        // Initial values
+        rst_n = 0;
+        ena = 0;
+        ui_in = 8'b0;
 
-// Reset sequence
-initial begin
-    rst_n = 0;      // Apply reset
-    #20 rst_n = 1;  // Release reset after 10ns
-end
+        // Reset
+        #10;
+        rst_n = 1;
+        
+        // Test with 'ena' disabled (output should not change)
+        #10;
+        ena = 0;
+        ui_in = 8'b10101010;    // Some input
+        #10;
+        $display("With ena=0, uo_out=%b (should be 00000000)", uo_out);
 
-// Stimulus
-initial begin
-    ui_in = 8'd0;
-    #20 ui_in = 8'd150;  // Example stimulus
-    #100 ui_in = 8'd45;
-end
+        // Enable signal (output should now follow input)
+        ena = 1;
+        #10;
+        ui_in = 8'b11001100;    // Change input
+        #10;
+        $display("With ena=1, uo_out=%b (should be 11001100)", uo_out);
 
-// Monitor outputs
-initial begin
-    $monitor("Time = %t, ui_in = %h, uo_out = %h", $time, ui_in, uo_out);
-end
+        // Disable again (output should freeze)
+        ena = 0;
+        ui_in = 8'b11110000;    // Change input again
+        #10;
+        $display("With ena=0, uo_out=%b (should still be 11001100)", uo_out);
 
-// VCD dump
-initial begin
-    $dumpfile("tb_top_module.vcd");
-    $dumpvars(0, tb_top_module);  // Fix: ensure the correct instance name is used here.
-end
-
-// End simulation after a certain time
-initial begin
-    #200000;  // Run simulation for 200,000 time units
-    $finish;
-end
-
+        $finish;
+    end
 endmodule
-
