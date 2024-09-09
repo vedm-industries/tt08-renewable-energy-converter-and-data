@@ -17,10 +17,11 @@ tt_um_vedm_industries dut (
     .clk(clk),
     .rst_n(rst_n),
     .ena(ena),  // Always connect ena
-
     .uio_in(8'b0),  // Unused input, set to 0
     .uio_out(),     // Unused output, left unconnected
-    .uio_oe()       // Unused output, left unconnected
+    .uio_oe(),       // Unused output, left unconnected
+    .vdd(),
+    .gnd()
 );
 
 // Clock generation
