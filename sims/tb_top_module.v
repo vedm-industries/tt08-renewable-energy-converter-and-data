@@ -8,7 +8,8 @@ reg [7:0] ui_in;
 wire [7:0] uo_out;
 reg clk;
 reg rst_n;
-reg ena;  // Always declare and use ena in the testbench
+reg vdd;  // Declare vdd for power
+reg gnd;  // Declare gnd for ground
 
 // Instantiate the DUT (Device Under Test)
 tt_um_vedm_industries dut (
@@ -16,12 +17,11 @@ tt_um_vedm_industries dut (
     .uo_out(uo_out),
     .clk(clk),
     .rst_n(rst_n),
-    .ena(ena),  // Always connect ena
+    .vdd(vdd),      // Connect vdd to DUT
+    .gnd(gnd),      // Connect gnd to DUT
     .uio_in(8'b0),  // Unused input, set to 0
     .uio_out(),     // Unused output, left unconnected
-    .uio_oe(),       // Unused output, left unconnected
-    .vdd(),
-    .gnd()
+    .uio_oe()       // Unused output, left unconnected
 );
 
 // Clock generation
@@ -29,17 +29,11 @@ initial begin
     clk = 0;
     forever #5 clk = ~clk;  // 100MHz clock
 end
-    
-initial begin
-    vdd = 1;  // Drive the power pin
-    gnd = 0;  // Drive the ground pin
-end
 
-// Reset and Enable sequence
+// Reset sequence
 initial begin
-    rst_n = 0;
-    ena = 1;  // Enable signal set to 1
-    #50 rst_n = 1;  // Release reset after 50ns
+    rst_n = 0;      // Apply reset
+    #20 rst_n = 1;  // Release reset after 10ns
 end
 
 // Stimulus
@@ -47,6 +41,12 @@ initial begin
     ui_in = 8'd0;
     #20 ui_in = 8'd150;  // Example stimulus
     #100 ui_in = 8'd45;
+end
+
+// Power pins initialization
+initial begin
+    vdd = 1;  // Drive vdd to 1
+    gnd = 0;  // Drive gnd to 0
 end
 
 // Monitor outputs
@@ -57,7 +57,7 @@ end
 // VCD dump
 initial begin
     $dumpfile("tb_top_module.vcd");
-    $dumpvars(0, tb_top_module);
+    $dumpvars(0, tb_top_module);  // Dump variables for waveform viewing
 end
 
 // End simulation after a certain time
