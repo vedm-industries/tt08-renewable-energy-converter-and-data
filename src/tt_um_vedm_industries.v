@@ -12,8 +12,9 @@ module tt_um_vedm_industries (
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n)
             uo_out <= 8'b0;  // Reset logic
-        else if (ena)        // Enable signal controls logic
+        else if (ena)        // Update uo_out only when ena is 1
             uo_out <= ui_in;
+        // No need for an else here; when ena is 0, uo_out holds its value
     end
 
     assign uio_out = 8'b0;
