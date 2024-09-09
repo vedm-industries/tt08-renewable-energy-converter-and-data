@@ -28,6 +28,11 @@ initial begin
     clk = 0;
     forever #5 clk = ~clk;  // 100MHz clock
 end
+    
+initial begin
+    vdd = 1;  // Drive the power pin
+    gnd = 0;  // Drive the ground pin
+end
 
 // Reset and Enable sequence
 initial begin
