@@ -3,13 +3,14 @@ module tt_um_vedm_industries (
     output wire [7:0] uo_out,
     input wire clk,
     input wire rst_n,
-    input wire ena,  // Always include ena for all tests (RTL, gate-level, and GDS)
-
-    // Unused ports
+    input wire ena,
+    input wire vdd,  // Power pin
+    input wire gnd,  // Ground pin
     input wire [7:0] uio_in,
     output wire [7:0] uio_out,
     output wire [7:0] uio_oe
 );
+
 
     // Existing functionality
     wire [7:0] converted_voltage;
