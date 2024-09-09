@@ -32,9 +32,8 @@ end
 // Reset and Enable sequence
 initial begin
     rst_n = 0;
-    ena = 0;  // Start with ena disabled
+    ena = 1;  // Ensure ena is set
     #50 rst_n = 1;  // Release reset after 50ns
-    #50 ena = 1;    // Enable after some time
 end
 
 // Stimulus
