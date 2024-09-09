@@ -3,15 +3,19 @@
 # Navigate to the source directory where your Verilog files are located
 cd src
 
-# Run Yosys synthesis, specifying the correct top module and output file types
-# The following command synthesizes the design to a JSON format, which is common for next steps in FPGA workflows
-yosys -p "synth_ice40 -top tt_um_vedm_industries -json tt_um_vedm_industries.json" *.v
+# Run Yosys synthesis, targeting an ASIC flow
+yosys -p "synth -top tt_um_vedm_industries -json tt_um_vedm_industries.json" *.v
 
-# If you use nextpnr for place and route, you can convert JSON to an ASIC or FPGA specific format
-# For example, nextpnr-ice40 uses the JSON file to generate a placement and routing file (.asc)
-nextpnr-ice40 --json tt_um_vedm_industries.json --pcf pins.pcf --asc tt_um_vedm_industries.asc
+# Run OpenLane for place and route (adjust the paths to OpenLane tool if necessary)
+cd ../openlane
+flow.tcl -design ../src -tag my_design -init_design_flow_only
 
-# use icepack to generate the binary configuration file for the FPGA
-icepack tt_um_vedm_industries.asc tt_um_vedm_industries.bin
+# Note: OpenLane typically has a configuration for GDS generation.
+# Make sure the configuration is set for ASIC design flow, not FPGA.
 
-# Note: Ensure you have the necessary .pcf (pin constraint file) for your specific FPGA board
+# Include testbench path in simulation
+cd ../sims
+iverilog -o tb_sim.vvp -s tb_top_module -I ../src tb_top_module.v
+
+# Run the simulation using your testbench
+vvp tb_sim.vvp
