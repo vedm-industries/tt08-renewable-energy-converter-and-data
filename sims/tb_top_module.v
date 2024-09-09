@@ -5,7 +5,10 @@ module tb_top_module;
 
 // Testbench signals
 reg [7:0] ui_in;
+reg [7:0] uio_in;  // Adding uio_in to prevent undefined signals
 wire [7:0] uo_out;
+wire [7:0] uio_out;
+wire [7:0] uio_oe;
 reg clk;
 reg rst_n;
 reg ena;  // Always declare and use ena in the testbench
@@ -16,11 +19,10 @@ tt_um_vedm_industries dut (
     .uo_out(uo_out),
     .clk(clk),
     .rst_n(rst_n),
-    .ena(ena),  // Always connect ena
-
-    .uio_in(8'b0),  // Unused input, set to 0
-    .uio_out(),     // Unused output, left unconnected
-    .uio_oe()       // Unused output, left unconnected
+    .ena(ena),
+    .uio_in(uio_in),  // Properly initialize
+    .uio_out(uio_out),
+    .uio_oe(uio_oe)
 );
 
 // Clock generation
@@ -32,20 +34,21 @@ end
 // Reset and Enable sequence
 initial begin
     rst_n = 0;
-    ena = 1;  // Enable signal set to 1
+    ena = 1;  // Ensure ena is set
     #50 rst_n = 1;  // Release reset after 50ns
 end
 
 // Stimulus
 initial begin
     ui_in = 8'd0;
+    uio_in = 8'd0;  // Ensure uio_in is initialized
     #20 ui_in = 8'd150;  // Example stimulus
     #100 ui_in = 8'd45;
 end
 
 // Monitor outputs
 initial begin
-    $monitor("Time = %t, ui_in = %h, uo_out = %h", $time, ui_in, uo_out);
+    $monitor("Time = %t, ui_in = %h, uo_out = %h, uio_out = %h", $time, ui_in, uo_out, uio_out);
 end
 
 // VCD dump
