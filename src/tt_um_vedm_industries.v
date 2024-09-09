@@ -3,7 +3,7 @@ module tt_um_vedm_industries (
     output wire [7:0] uo_out,
     input wire clk,
     input wire rst_n,
-    input wire ena,  // Include ena for all tests
+    input wire ena,  // Always include ena for all tests (RTL, gate-level, and GDS)
 
     // Unused ports
     input wire [7:0] uio_in,
@@ -13,14 +13,12 @@ module tt_um_vedm_industries (
 
     // Existing functionality
     wire [7:0] converted_voltage;
-    
-    // Only process data when enabled
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)
-            converted_voltage <= 8'd0;
-        else if (ena)
-            converted_voltage <= ui_in;  // Update with input
-    end
+    data_collector data_collector_inst (
+        .clk(clk),
+        .rst_n(rst_n),
+        .data_in(ui_in),
+        .data_out(converted_voltage)
+    );
 
     assign uo_out = converted_voltage;
 
@@ -28,4 +26,6 @@ module tt_um_vedm_industries (
     assign uio_out = 8'b0;
     assign uio_oe = 8'b0;
 
+    // Use ena in the design if needed, otherwise leave it for future use.
+    // For now, ena can remain unused but declared to pass synthesis.
 endmodule
